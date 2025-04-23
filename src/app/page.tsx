@@ -1,12 +1,12 @@
 import ConnectWallet from '@/components/ConnectWallet';
+import NFTGallery from '@/components/NFTGallery';
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
-      <div className="text-center space-y-4">
-        <h1 className="text-2xl font-bold">🎉 Tailwind is Working!</h1>
-        <ConnectWallet />
-      </div>
+    <main className="min-h-screen px-4 py-8 flex flex-col items-center space-y-6">
+      <h1 className="text-3xl font-bold text-center">NFT Transfer Tool</h1>
+      <ConnectWallet />
+      <NFTGallery />
     </main>
   );
 }
