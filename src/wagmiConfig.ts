@@ -1,3 +1,5 @@
+// src/wagmiConfig.ts
+
 import { createConfig, http } from 'wagmi';
 import { base } from 'wagmi/chains';
 
@@ -9,6 +11,7 @@ export const wagmiConfig = createConfig({
   ssr: true,
 });
 
+// Type augmentation so wagmi recognizes the config structure
 declare module 'wagmi' {
   interface Register {
     config: typeof wagmiConfig;

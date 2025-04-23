@@ -6,13 +6,22 @@ import { useAccount } from 'wagmi';
 import { useNfts } from '@/hooks/useNfts';
 import NFTTransferForm from './NFTTransferForm';
 
-export default function NFTGallery() {
+// ✅ Add this Props type
+type Props = {
+  nfts?: { tokenId: string; name: string; image: string }[];
+  onSelect?: (tokenId: string) => void; // ✅ changed here
+};
+
+// ✅ Accept props, and fallback to hook logic for normal runtime
+export default function NFTGallery({ nfts: overrideNfts, onSelect }: Props) {
   const { address } = useAccount();
   const [selectedTokenId, setSelectedTokenId] = useState<string | null>(null);
-  const { nfts, loading, error } = useNfts();
+  const { nfts: fetchedNfts, loading, error } = useNfts();
 
-  if (loading) return <p className="text-center">Loading NFTs...</p>;
-  if (error) return <p className="text-center text-red-500">Failed to load NFTs</p>;
+  const nfts = overrideNfts ?? fetchedNfts;
+
+  if (loading && !overrideNfts) return <p className="text-center">Loading NFTs...</p>;
+  if (error && !overrideNfts) return <p className="text-center text-red-500">Failed to load NFTs</p>;
   if (!nfts.length) return <p className="text-center">No NFTs found.</p>;
 
   return (
@@ -24,7 +33,10 @@ export default function NFTGallery() {
             className={`border rounded-lg p-2 cursor-pointer hover:shadow-md ${
               selectedTokenId === nft.tokenId ? 'border-primary' : ''
             }`}
-            onClick={() => setSelectedTokenId(nft.tokenId)}
+            onClick={() => {
+              setSelectedTokenId(nft.tokenId);
+              onSelect?.(nft.tokenId); // ✅ allow test to intercept selection
+            }}
           >
             {nft.image && (
               <Image
