@@ -15,8 +15,22 @@ import { mockWriteContractAsync } from '@root/setupTests';
 
 describe('NFTTransferForm', () => {
   beforeEach(() => {
-    vi.clearAllMocks();                     // clears mockWriteContractAsync too
-    vi.spyOn(console, 'error').mockImplementation(() => {}); // silence console.error
+    vi.clearAllMocks();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  it('shows validation error when the address field is blank', () => {
+    const { container } = render(<NFTTransferForm tokenId="1" />, {
+      wrapper: ProvidersWrapper,
+    });
+
+    // Submit without typing anything
+    fireEvent.submit(container.querySelector('form')!);
+
+    // Should not call the contract
+    expect(mockWriteContractAsync).not.toHaveBeenCalled();
+    // Should show validation error for empty input
+    expect(screen.getByRole('alert')).toHaveTextContent(/invalid recipient address format/i);
   });
 
   it('submits form with valid address and triggers a contract write', async () => {
@@ -37,7 +51,6 @@ describe('NFTTransferForm', () => {
   });
 
   it('shows error when the contract call fails', async () => {
-    // Make the next contract call reject
     mockWriteContractAsync.mockRejectedValueOnce(new Error('Boom'));
 
     const { container } = render(<NFTTransferForm tokenId="1" />, {
@@ -51,7 +64,6 @@ describe('NFTTransferForm', () => {
 
     fireEvent.submit(container.querySelector('form')!);
 
-    // Wait for the component to display the error alert
     await waitFor(() => {
       expect(screen.getByRole('alert')).toHaveTextContent(/transaction failed/i);
     });
