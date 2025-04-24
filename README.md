@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NFT-Transfer Mini-App
 
-## Getting Started
+A lightweight Next.js demo for browsing and transferring NFTs using Wagmi & Viem, complete with unit tests and CI.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Connect Wallet**  
+  Easily connect/disconnect via Metamask, WalletConnect, etc.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **NFT Gallery**  
+  Fetches your NFTs from Alchemy and displays them in a responsive grid.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Transfer Form**  
+  Validates recipient addresses and calls `safeTransferFrom` on your ERC-721 contract.
 
-## Learn More
+- **Robust Testing**  
+  ✅ Validation, happy & failure paths covered with Vitest + Testing-Library  
+  ✅ Global Wagmi mocks for deterministic tests
 
-To learn more about Next.js, take a look at the following resources:
+- **Continuous Integration**  
+  GitHub Actions runs **lint**, **type-check**, **build**, and **tests** on every PR.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📦 Getting Started
 
-## Deploy on Vercel
+1. Clone and install:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   git clone git@github.com:Cryptolyfe/NFT-Transfer.git
+   cd NFT-Transfer
+   npm install
+## 🧪 Test Suite & Coverage
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+We’ve written comprehensive unit tests to verify every core behavior:
+
+| File                                  | Specs                                                                                     | Coverage  |
+|---------------------------------------|-------------------------------------------------------------------------------------------|-----------|
+| `useNfts.test.tsx`                    | • ✅ Fetch success<br>• ✅ API error<br>• ✅ Empty list                                     | 100 %     |
+| `NFTGallery.test.tsx`                 | • ✅ Renders list of NFTs<br>• ✅ Empty state<br>• ✅ onSelect callback                    | 100 %     |
+| `ConnectWallet.test.tsx`              | • ✅ “Connect Wallet” when disconnected<br>• ✅ “Disconnect” when connected                 | 100 %     |
+| `NFTTransferForm.test.tsx`            | • ✅ Invalid-address validation<br>• ✅ Successful `writeContractAsync` call<br>• ✅ Wagmi error path<br>• ✅ Blank-input no-op | 95 %+     |
+
+All files          | 76.9% statements | 64.1% branches | 68.8% functions | 76.9% lines
+src/components     | 94.7% statements | 73.1% branches | 75.0% functions | 94.7% lines
+src/hooks          | 67.6% statements | 42.9% branches |100.0% functions | 67.6% lines
