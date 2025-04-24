@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    /* -- Language & checking options -- */
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -7,22 +8,38 @@
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
+    "incremental": true,
+
+    /* -- Module resolution -- */
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "incremental": true,
-    "types": ["vitest/globals"], // ✅ Add this line
+
+    /* -- Vitest global types -- */
+    "types": ["vitest/globals"],
+
+    /* -- Next.js TS plugin -- */
     "plugins": [
-      {
-        "name": "next"
-      }
+      { "name": "next" }
     ],
+
+    /* -- Path aliases -- */
+    "baseUrl": ".",                // NEW – reference point for aliases
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],           // existing src alias
+      "@root/*": ["./*"]            // NEW project-root alias
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "vite.config.mts"],
+
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "vite.config.mts",
+    "setupTests.ts"                // (optional) ensure test setup file is typed
+  ],
   "exclude": ["node_modules"]
 }

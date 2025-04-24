@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './setupTests.ts', // if you’re using setup
+    setupFiles: './setupTests.ts',
   },
   plugins: [tsconfigPaths()],
   esbuild: {

@@ -42,4 +42,24 @@ describe('NFTTransferForm', () => {
       expect(calls).toBeGreaterThan(0);
     }, { timeout: 3000 });           // ← extended timeout
   });
+  it('shows error when the contract call fails', async () => {
+    // make the next contract call reject
+    mockWriteContractAsync.mockRejectedValueOnce(new Error('Boom'));
+  
+    const { container } = render(<NFTTransferForm tokenId="1" />, {
+      wrapper: ProvidersWrapper,
+    });
+  
+    await userEvent.type(
+      screen.getByLabelText(/recipient address/i),
+      '0x52908400098527886E0F7030069857D2E4169EE7',
+    );
+  
+    container.querySelector('form')!.requestSubmit();
+  
+    // waits until the error paragraph appears
+    expect(
+      await screen.findByRole('alert'),
+    ).toHaveTextContent(/transaction failed/i);
+  });  
 });
