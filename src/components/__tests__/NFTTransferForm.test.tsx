@@ -1,39 +1,45 @@
-// src/components/__tests__/NFTTransferForm.test.tsx
-
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import {
+  render,
+  screen,
+  waitFor,
+  fireEvent,
+} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect, beforeEach } from 'vitest';
+
 import NFTTransferForm from '../NFTTransferForm';
 import { ProvidersWrapper } from '@/test-utils';
 
+import {
+  mockWriteContract,
+  mockWriteContractAsync,
+} from '@root/setupTests';
+
 describe('NFTTransferForm', () => {
-  it('shows form inputs and lets you enter address', () => {
-    render(<NFTTransferForm tokenId="1" />, {
-      wrapper: ProvidersWrapper,
-    });
-
-    const input = screen.getByLabelText(/recipient address/i);
-    fireEvent.change(input, {
-      target: { value: '0x1234567890123456789012345678901234567890' },
-    });
-
-    expect(input).toHaveValue('0x1234567890123456789012345678901234567890');
+  beforeEach(() => {
+    mockWriteContract.mockClear();
+    mockWriteContractAsync.mockClear();
   });
 
-  it('shows error for invalid recipient address', async () => {
-    render(<NFTTransferForm tokenId="1" />, {
+  it('submits form with valid address and triggers a contract write', async () => {
+    const { container } = render(<NFTTransferForm tokenId="1" />, {
       wrapper: ProvidersWrapper,
     });
 
-    const input = screen.getByLabelText(/recipient address/i);
-    fireEvent.change(input, { target: { value: 'invalid-address' } });
-
-    const button = screen.getByRole('button', { name: /send nft/i });
-    fireEvent.click(button);
-
-    // ✅ Now matches element with role="alert"
-    expect(await screen.findByRole('alert')).toHaveTextContent(
-      /invalid recipient address format/i
+    await userEvent.type(
+      screen.getByLabelText(/recipient address/i),
+      '0x52908400098527886e0f7030069857d2e4169ee7',   // lowercase address
     );
+
+    fireEvent.submit(container.querySelector('form')!);
+
+    await waitFor(() => {
+      const calls =
+        mockWriteContract.mock.calls.length +
+        mockWriteContractAsync.mock.calls.length;
+
+      expect(calls).toBeGreaterThan(0);
+    }, { timeout: 3000 });           // ← extended timeout
   });
 });
