@@ -127,6 +127,5 @@ All files |   60.52 |    54.71 |   65.21 |   60.52 |
 ```
 <br>
 <br>
-<br>
 [View it live on the web!](https://nft-transfer-chi.vercel.app)
 <br>
