@@ -79,16 +79,8 @@ Image URLs depend on contract metadata; tokens without image field render name o
 
 Gas estimate errors show as a generic “Transaction failed” toast (could map more granular reasons).
 
-ESLint has a few any pragmas in mocks to keep tests terse.
-
- ✓ src/components/__tests__/ConnectWallet.test.tsx (2 tests) 74ms
- ✓ src/components/__tests__/NFTTransferForm.test.tsx (3 tests) 93ms
- ✓ src/components/__tests__/NFTGallery.test.tsx (3 tests) 54ms
-
  Test Files  4 passed (4)
       Tests  11 passed (11)
-   Start at  17:57:31
-   Duration  1.30s (transform 138ms, setup 423ms, collect 1.54s, tests 233ms, environment 1.42s, prepare 210ms)
 
  % Coverage report from v8
 ----------|---------|----------|---------|---------|-------------------
