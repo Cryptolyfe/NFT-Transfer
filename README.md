@@ -31,7 +31,7 @@ repo ships with Hardhat scripts & CI.
 
 ## 🛠 Tech Stack
 
-| Layer | Choice |
+| Layer | Choice |     |
 |-------|--------|-----|
 | React tool-kit | **Next 15 (App Router)** |
 | Wallet / chains | **wagmi v2** + **Viem** for type-safe RPC |
