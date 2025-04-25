@@ -56,18 +56,16 @@ npx hardhat run scripts/deploy.ts --network base-sepolia
 
 pnpm dev               # http://localhost:3000
 
-Important environment keys
+Important environment keys:
 
-Key	Purpose
-NEXT_PUBLIC_ALCHEMY_KEY	Auth for Alchemy NFT API
-NEXT_PUBLIC_NFT_CONTRACT	The ERC-721 collection you want to view/transfer
-PRIVATE_KEY	For Hardhat deploy (never required in frontend)
-NEXT_PUBLIC_CHAIN_ID	Defaults to 84532 (Base Sepolia)
-Vercel deploy: add the same vars in the dashboard → the dapp works out of the box 
-Vercel
+NEXT_PUBLIC_ALCHEMY_KEY	- Auth for Alchemy NFT API
+NEXT_PUBLIC_NFT_CONTRACT	- The ERC-721 collection you want to view/transfer
+PRIVATE_KEY -	For Hardhat deploy (never required in frontend)
+NEXT_PUBLIC_CHAIN_ID	- Defaults to 84532 (Base Sepolia)
+Vercel deploy: add the same vars in the dashboard
 .
 
-🧪 Test Suite & Coverage
+🧪 Test Suite & Coverage:
 
 File	Key specs covered	Line Cov
 useNfts.test.tsx	fetch success / API error / empty	100 %
@@ -76,7 +74,7 @@ ConnectWallet.test.tsx	connect / disconnect buttons	100 %
 NFTTransferForm.test.tsx	invalid addr / successful transfer / wagmi error / blank no-op	95 %
 To keep coverage fresh: pnpm test && pnpm typecheck before every commit (CI runs the same).
 
-📝 Known Limitations
+📝 Known Limitations:
 Image URLs depend on contract metadata; tokens without image field render name only.
 
 Gas estimate errors show as a generic “Transaction failed” toast (could map more granular reasons).
