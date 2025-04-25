@@ -1,9 +1,10 @@
+// src/hooks/useNfts.ts
 import { useAccount } from 'wagmi';
 import { useEffect, useState } from 'react';
 import { ALCHEMY_BASE_URL, NFT_CONTRACT_ADDRESS } from '@/constants';
 
 interface NFT {
-  tokenId: string;
+  tokenId: string;  // decimal string now
   image: string;
   name: string;
 }
@@ -23,12 +24,17 @@ export const useNfts = () => {
           `${ALCHEMY_BASE_URL}/getNFTsForOwner?owner=${address}&contractAddresses[]=${NFT_CONTRACT_ADDRESS}`
         );
         const data = await res.json();
-        const ownedNfts = data.ownedNfts?.map((nft: any) => ({
-          tokenId: nft.id.tokenId,
-          name: nft.title,
-          image: nft.media[0]?.gateway || '',
-        }));
-        setNfts(ownedNfts || []);
+        const ownedNfts = (data.ownedNfts || []).map((nft: any) => {
+          // Convert hex tokenId to decimal
+          const hexId: string = nft.id.tokenId;
+          const tokenId = BigInt(hexId).toString(10);
+          return {
+            tokenId,
+            name: nft.title,
+            image: nft.media[0]?.gateway || '',
+          };
+        });
+        setNfts(ownedNfts);
       } catch (err: any) {
         setError(err.message || 'Error fetching NFTs');
       } finally {

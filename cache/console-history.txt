@@ -1,0 +1,22 @@
+.exit
+await nft.mint();
+Object.keys(nft.interface.functions);
+const nft = await ethers.getContractAt("TestNFT", "0x92ef9969ED48FdA5504b9224c047A2280D9A065e")
+await nft.mint()
+const nft = await ethers.getContractAt("TestNFT", "0xYourContractAddress")
+npx hardhat console --network base-sepolia
+const nft = await ethers.getContractAt("TestNFT", "0x1234...ABCD");
+base-sepolia> 
+await nft.mint("ipfs://QmCat");
+const nft = await ethers.getContractAt("TestNFT", "0xYourContractAddress");
+const nft = await ethers.getContractAt("MyNft", "0xYourContractAddress");
+await nft.mint("ipfs://QmDog");   // token #3
+await nft.mint("ipfs://QmCat");   // token #2
+const nft = await ethers.getContractAt("MyNft", "0xYourContractAddress");
+console.log("➡️  Chain ID:", hre.network.config.chainId);
+console.log("➡️  RPC URL:", hre.network.config.url);
+const hre = require("hardhat");
+> process.exit(0);
+> console.log("➡️  Chain ID:", hre.network.config.chainId);
+> console.log("➡️  RPC URL:", hre.network.config.url);
+> const hre = require("hardhat");

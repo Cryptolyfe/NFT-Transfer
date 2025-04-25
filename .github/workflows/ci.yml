@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Checkout your code
+      - uses: actions/checkout@v4
+
+      # 2. Set up Node.js
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      # 3. Install dependencies
+      - run: npm ci
+
+      # 4. Lint your code
+      - run: npm run lint
+
+      # 5. Type-check (no emit)
+      - run: npm run typecheck
+
+      # 6. Build your Next.js app
+      - run: npm run build
+
+      # 7. Run tests with coverage
+      - run: npm run test
