@@ -126,4 +126,4 @@ All files |   60.52 |    54.71 |   65.21 |   60.52 |
   ...s.ts |   78.37 |       50 |     100 |   78.37 | 26,29-35          
 ----------|---------|----------|---------|---------|-------------------
 
-[NFT Transfer Tool Live on Vercel](https://nft-transfer-chi.vercel.app/)
+[NFT Transfer Tool Live on Vercel](https://nft-transfer-chi.vercel.app)
