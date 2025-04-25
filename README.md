@@ -3,10 +3,10 @@
 A lightweight **Next.js ( App Router ) + Wagmi v2 + Viem** demo that lets any
 user:
 
-* connect their MetaMask wallet  
-* view every NFT they own **on Base Sepolia** from one hard-coded collection  
-* mint a demo NFT 
-* select an NFT and transfer it to another address
+* Connect their MetaMask wallet  
+* View every NFT they own **on Base Sepolia** from one hard-coded collection  
+* Mint a demo NFT 
+* Select an NFT and transfer it to another address
 
 All core flows are fully unit-tested with **Vitest + Testing Library** and the
 repo ships with Hardhat scripts & CI.
