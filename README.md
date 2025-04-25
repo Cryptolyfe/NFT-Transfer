@@ -45,7 +45,7 @@ repo ships with Hardhat scripts & CI.
 ## 🚀 Getting Started (local)
 
 ```bash
-git clone https://github.com/<you>/nft-transfer.git
+git clone https://github.com/Cryptolyfe/NFT-Transfer.git
 cd nft-transfer
 pnpm install           # or npm / yarn
 cp .env.example .env.local
@@ -69,16 +69,6 @@ Vercel
 .
 
 🧪 Test Suite & Coverage
-bash
-Copy
-Edit
-pnpm test
-text
-Copy
-Edit
- Test Files  4 passed (4)
-      Tests 11 passed (11)
- Coverage   76.9 % statements • 64.1 % branches • 68.8 % functions • 76.9 % lines
 
 File	Key specs covered	Line Cov
 useNfts.test.tsx	fetch success / API error / empty	100 %
