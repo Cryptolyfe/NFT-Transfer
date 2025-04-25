@@ -34,11 +34,11 @@ repo ships with Hardhat scripts & CI.
 | Layer | Choice | Why |
 |-------|--------|-----|
 | React tool-kit | **Next 15 (App Router)** |
-| Wallet / chains | **wagmi v2** + **Viem** for type-safe RPC :contentReference[oaicite:4]{index=4} |
-| UI | **Tailwind CSS** + **daisyUI** components :contentReference[oaicite:5]{index=5} |
-| Data | **Alchemy NFT API** for fast owner queries :contentReference[oaicite:6]{index=6} |
-| Testing | **Vitest** + React Testing Library :contentReference[oaicite:7]{index=7} |
-| Contract dev | **Hardhat** tooling & deploy scripts :contentReference[oaicite:8]{index=8} |
+| Wallet / chains | **wagmi v2** + **Viem** for type-safe RPC |
+| UI | **Tailwind CSS** + **daisyUI** components |
+| Data | **Alchemy NFT API** for fast owner queries |
+| Testing | **Vitest** + React Testing Library |
+| Contract dev | **Hardhat** tooling & deploy scripts |
 
 ---
 
