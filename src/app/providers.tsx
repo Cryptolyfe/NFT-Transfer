@@ -3,7 +3,7 @@
 import { WagmiProvider } from 'wagmi';
 import { wagmiConfig } from '@/wagmiConfig';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ToastProvider from '@/components/Toast';   // ← add
+import ToastProvider from '@/components/Toast';   
 
 const queryClient = new QueryClient();
 
