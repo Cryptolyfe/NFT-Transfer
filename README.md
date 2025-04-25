@@ -17,12 +17,12 @@ repo ships with Hardhat scripts & CI.
 
 | Spec from brief | Implementation |
 |-----------------|----------------|
-| Wallet-connect (MetaMask) | `useConnect` with **MetaMaskConnector** (wagmi v2) :contentReference[oaicite:0]{index=0} |
-| Chain-specific logic | Config and `autoSwitch` lock the dapp to **Base Sepolia (84532)** :contentReference[oaicite:1]{index=1} |
+| Wallet-connect (MetaMask) | `useConnect` with **MetaMaskConnector** (wagmi v2) |
+| Chain-specific logic | Config and `autoSwitch` lock the dapp to **Base Sepolia (84532)** |
 | Pre-defined collection | `NEXT_PUBLIC_NFT_CONTRACT` env var; every fetch/write uses that address |
-| NFT list display | `useNfts` hits **Alchemy NFT API** → name & image grid :contentReference[oaicite:2]{index=2} |
-| Select & highlight | Click card → blue frame + dim non-selected cards (Tailwind) |
-| Transfer to address | `<NFTTransferForm>` validates `isAddress`, calls `safeTransferFrom` via Wagmi `useContractWrite` :contentReference[oaicite:3]{index=3} |
+| NFT list display | `useNfts` hits **Alchemy NFT API** → name & image grid |
+| Select & highlight | Click card → blue frame |
+| Transfer to address | `<NFTTransferForm>` validates `isAddress`, calls `safeTransferFrom` via Wagmi `useContractWrite` |
 | Error handling | Inline messages + DaisyUI toast banners |
 | Tx status indicator | Button shows “Sending…”, success toast links to Basescan |
 | Nice-to-have: Mint demo NFT | `<MintButton>` calls contract `mint()` so reviewers can create assets quickly |
