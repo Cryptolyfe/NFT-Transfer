@@ -56,8 +56,6 @@ npx hardhat run scripts/deploy.ts --network base-sepolia
 
 pnpm dev               # http://localhost:3000
 
-```
-
 Important environment keys
 
 Key	Purpose
@@ -126,6 +124,7 @@ All files |   60.52 |    54.71 |   65.21 |   60.52 |
  ...hooks |   78.37 |       50 |     100 |   78.37 |                   
   ...s.ts |   78.37 |       50 |     100 |   78.37 | 26,29-35          
 ----------|---------|----------|---------|---------|-------------------
+```
 <br>
 <br>
 <br>
