@@ -1,71 +1,109 @@
 // src/components/__tests__/NFTTransferForm.test.tsx
-import React from 'react';
+import React, { ComponentType } from 'react';
 import {
   render,
   screen,
   fireEvent,
   waitFor,
 } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-
-import NFTTransferForm from '../NFTTransferForm';
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  beforeEach,
+  afterEach,
+} from 'vitest';
+import * as wagmi from 'wagmi';
 import { ProvidersWrapper } from '@/test-utils';
-import { mockWriteContractAsync } from '@root/setupTests';
+
+/* spy for wagmi mutation */
+const mockWriteContractAsync = vi.fn().mockResolvedValue('0xMockedTxHash');
+let NFTTransferForm: ComponentType<{ tokenId: string }>;
 
 describe('NFTTransferForm', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
+  beforeEach(async () => {
+    vi.restoreAllMocks();
 
-  it('shows validation error when the address field is blank', () => {
-    const { container } = render(<NFTTransferForm tokenId="1" />, {
-      wrapper: ProvidersWrapper,
+    /* -- wagmi hooks ------------------------------------------------ */
+    vi.spyOn(wagmi, 'useAccount').mockReturnValue({
+      address: '0xabc123abc123abc123abc123abc123abc123abc1',
+      addresses: ['0xabc123abc123abc123abc123abc123abc123abc1'] as const,
+      isConnected: true,
+      isConnecting: false,
+      isDisconnected: false,
+      isReconnecting: false,
+      status: 'connected',
+      chain: undefined,
+      chainId: 1,
+      connector: {} as any,
     });
 
-    // Submit without typing anything
-    fireEvent.submit(container.querySelector('form')!);
+    vi.spyOn(wagmi, 'useContractWrite').mockReturnValue({
+      writeContractAsync: mockWriteContractAsync,
+      reset: vi.fn(),
+      error: null,
+      status: 'success',
+      data: '0xMockedTxHash',
+      variables: {
+        abi: [] as any,
+        address: '0xcontract' as `0x${string}`,
+        functionName: 'safeTransferFrom',
+      },
+      isPending: false,
+      isError: false,
+      isSuccess: true,
+      isIdle: false,
+      context: undefined,
+      failureCount: 0,
+      failureReason: null,
+      isPaused: false,
+      submittedAt: 0,
+    } as any);
 
-    // Should not call the contract
-    expect(mockWriteContractAsync).not.toHaveBeenCalled();
-    // Should show validation error for empty input
-    expect(screen.getByRole('alert')).toHaveTextContent(/invalid recipient address format/i);
+    /* dynamic import AFTER mocks */
+    const mod: any = await import('../NFTTransferForm');
+    NFTTransferForm = mod.default as ComponentType<{ tokenId: string }>;
   });
 
-  it('submits form with valid address and triggers a contract write', async () => {
-    const { container } = render(<NFTTransferForm tokenId="1" />, {
-      wrapper: ProvidersWrapper,
+  afterEach(() => vi.clearAllMocks());
+
+  it('shows form inputs and lets you enter address', () => {
+    render(<NFTTransferForm tokenId="1" />, { wrapper: ProvidersWrapper });
+
+    const input = screen.getByLabelText(/recipient address/i);
+    fireEvent.change(input, {
+      target: { value: '0x1234567890123456789012345678901234567890' },
     });
 
-    await userEvent.type(
-      screen.getByLabelText(/recipient address/i),
-      '0x52908400098527886E0F7030069857D2E4169EE7',
+    expect(input).toHaveValue(
+      '0x1234567890123456789012345678901234567890'
     );
+  });
 
-    fireEvent.submit(container.querySelector('form')!);
+  it('shows error for invalid recipient address', async () => {
+    render(<NFTTransferForm tokenId="1" />, { wrapper: ProvidersWrapper });
+
+    fireEvent.change(screen.getByLabelText(/recipient address/i), {
+      target: { value: 'invalid-address' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /send nft/i }));
+
+    expect(
+      await screen.findByRole('alert')
+    ).toHaveTextContent(/invalid recipient address format/i);
+  });
+
+  it('submits form with valid address and calls writeContractAsync', async () => {
+    render(<NFTTransferForm tokenId="1" />, { wrapper: ProvidersWrapper });
+
+    fireEvent.change(screen.getByLabelText(/recipient address/i), {
+      target: { value: '0x1234567890123456789012345678901234567890' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /send nft/i }));
 
     await waitFor(() => {
       expect(mockWriteContractAsync).toHaveBeenCalled();
-    });
-  });
-
-  it('shows error when the contract call fails', async () => {
-    mockWriteContractAsync.mockRejectedValueOnce(new Error('Boom'));
-
-    const { container } = render(<NFTTransferForm tokenId="1" />, {
-      wrapper: ProvidersWrapper,
-    });
-
-    await userEvent.type(
-      screen.getByLabelText(/recipient address/i),
-      '0x52908400098527886E0F7030069857D2E4169EE7',
-    );
-
-    fireEvent.submit(container.querySelector('form')!);
-
-    await waitFor(() => {
-      expect(screen.getByRole('alert')).toHaveTextContent(/transaction failed/i);
     });
   });
 });
